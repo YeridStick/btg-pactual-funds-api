@@ -1,0 +1,14 @@
+##Spring Configuration
+server:
+  port: 8080
+spring:
+  application:
+    name: BTG_Pactual_Backend_Challenge_Yerid
+  devtools:
+    add-properties: false
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  profiles:
+    include:
