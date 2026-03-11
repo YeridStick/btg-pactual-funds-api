@@ -1,0 +1,15 @@
+services:
+  localstack:
+    container_name: btg_pactual_localstack
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    environment:
+      - SERVICES=dynamodb,sts
+      - DEFAULT_REGION=us-east-1
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "./localstack_data:/var/lib/localstack:Z"
+      - "/var/run/podman/podman.sock:/var/run/docker.sock:Z"
