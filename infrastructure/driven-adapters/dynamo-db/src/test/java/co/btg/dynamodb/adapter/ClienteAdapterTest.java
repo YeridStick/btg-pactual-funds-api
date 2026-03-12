@@ -52,8 +52,6 @@ class ClienteAdapterTest {
 
     @BeforeEach
     void setUp() {
-        // El constructor de TemplateAdapterOperations llama connectionFactory.table(...)
-        // y el propio ClienteAdapter también llama connectionFactory.table(...)
         when(enhancedClient.table(eq("Clientes"), any(TableSchema.class))).thenReturn(asyncTable);
 
         clienteAdapter = new ClienteAdapter(enhancedClient, objectMapper, validator);

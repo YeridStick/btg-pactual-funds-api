@@ -22,8 +22,6 @@ public class DynamoDBConfig {
     public DynamoDbAsyncClient amazonDynamoDB(@Value("${aws.dynamodb.endpoint}") String endpoint,
                                               @Value("${aws.region}") String region) {
         return DynamoDbAsyncClient.builder()
-                // LocalStack no valida credenciales, pero el SDK exige que existan.
-                // Usamos StaticCredentialsProvider en lugar de ProfileCredentialsProvider.
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create("test", "test")))
                 .region(Region.of(region))

@@ -38,9 +38,9 @@ public class FondoAdapter extends TemplateAdapterOperations<Fondo, String, Fondo
         int totalToRead = (page + 1) * size;
 
         return Flux.from(tableInstance.scan(s -> s.limit(totalToRead)))
-                .flatMapIterable(p -> p.items()) // Abrimos las páginas que vengan de la DB
-                .skip((long) page * size)// Saltamos los registros de páginas previas
-                .take(size)                      // Cortamos el flujo en el tamaño exacto
+                .flatMapIterable(p -> p.items())
+                .skip((long) page * size)
+                .take(size)
                 .map(entity -> mapper.map(entity, Fondo.class));
     }
 

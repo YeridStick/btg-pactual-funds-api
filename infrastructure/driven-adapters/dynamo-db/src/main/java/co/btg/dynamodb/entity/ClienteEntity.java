@@ -33,7 +33,6 @@ public class ClienteEntity {
 
     private List<String> fondosSuscritos;
 
-    // --- NUEVO CAMPO PARA CONCURRENCIA ---
     private Long version;
 
     @DynamoDbPartitionKey
@@ -59,7 +58,6 @@ public class ClienteEntity {
         this.fondosSuscritos = fondosSuscritos;
     }
 
-    // --- ANOTACIÓN CLAVE PARA EL BLOQUEO OPTIMISTA ---
     @DynamoDbVersionAttribute
     @DynamoDbAttribute("version")
     public Long getVersion() {

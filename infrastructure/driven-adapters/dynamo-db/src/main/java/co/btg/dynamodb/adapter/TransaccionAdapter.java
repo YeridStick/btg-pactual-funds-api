@@ -2,10 +2,8 @@ package co.btg.dynamodb.adapter;
 
 import co.btg.dynamodb.entity.TransaccionEntity;
 import co.btg.dynamodb.helper.TemplateAdapterOperations;
-import co.btg.model.common.BusinessException;
 import co.btg.model.transaccion.Transaccion;
 import co.btg.model.transaccion.gateways.TransaccionRepository;
-import jakarta.validation.Validator;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
