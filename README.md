@@ -13,6 +13,7 @@ domain/
 
 infrastructure/
 ├── driven-adapters/dynamo-db/   → Adaptadores DynamoDB (ClienteAdapter, FondoAdapter, TransaccionAdapter)
+├── driven-adapters/notification-adapter/ → Adaptador de Notificaciones (Email/SMS)
 ├── entry-points/reactive-web/   → Controllers REST (FondosController, ClienteController)
 └── helpers/metrics/             → Métricas con Micrometer
 
