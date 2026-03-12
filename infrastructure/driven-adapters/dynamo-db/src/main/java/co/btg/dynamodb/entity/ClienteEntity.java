@@ -1,9 +1,11 @@
 package co.btg.dynamodb.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import software.amazon.awssdk.enhanced.dynamodb.extensions.annotations.DynamoDbVersionAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
@@ -15,12 +17,56 @@ import java.util.List;
 @AllArgsConstructor
 @DynamoDbBean
 public class ClienteEntity {
+
+    @NotBlank(message = "El ID no puede estar vacío")
     private String id;
+
+    @NotBlank(message = "El Nombre es obligatorio")
     private String nombre;
-    private Double saldo; // Debe inicializarse en 500000
-    private String preferenciaNotificacion; // "SMS" o "EMAIL"
-    private List<String> fondosSuscritos; // IDs de los fondos vinculados
+
+    @NotNull(message = "El saldo es obligatorio")
+    @Min(value = 0, message = "El saldo no puede ser negativo")
+    private Double saldo;
+
+    @NotBlank(message = "La preferencia de notificación es obligatoria")
+    private String preferenciaNotificacion;
+
+    private List<String> fondosSuscritos;
+
+    // --- NUEVO CAMPO PARA CONCURRENCIA ---
+    private Long version;
 
     @DynamoDbPartitionKey
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
+
+    @DynamoDbAttribute("preferencia")
+    public String getPreferenciaNotificacion() {
+        return preferenciaNotificacion;
+    }
+
+    public void setPreferenciaNotificacion(String preferenciaNotificacion) {
+        this.preferenciaNotificacion = preferenciaNotificacion;
+    }
+
+    @DynamoDbAttribute("fondos_suscritos")
+    public List<String> getFondosSuscritos() {
+        return fondosSuscritos;
+    }
+
+    public void setFondosSuscritos(List<String> fondosSuscritos) {
+        this.fondosSuscritos = fondosSuscritos;
+    }
+
+    // --- ANOTACIÓN CLAVE PARA EL BLOQUEO OPTIMISTA ---
+    @DynamoDbVersionAttribute
+    @DynamoDbAttribute("version")
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }
