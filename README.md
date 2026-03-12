@@ -37,7 +37,6 @@ applications/app-service/        → Configuración y arranque Spring Boot
 podman run --rm -it \
   -p 4567:4566 \
   -e SERVICES=dynamodb,sts \
-  -e DEFAULT_REGION=us-east-1 \
   -e DEBUG=1 \
   --name btg_pactual_localstack \
   localstack/localstack
@@ -131,7 +130,35 @@ aws dynamodb put-item --endpoint-url $ENDPOINT --region $REGION --table-name Fon
 .\gradlew.bat bootRun
 ```
 
-La aplicación estará disponible en **http://localhost:8082**
+ La aplicación estará disponible en **http://localhost:8082**
+
+---
+
+## 🐳 Despliegue con Docker / Podman
+
+Para construir y ejecutar la aplicación en un contenedor:
+
+### 1. Construir la imagen
+
+Asegúrate de haber compilado el proyecto primero con `./gradlew clean build`. Luego, desde la raíz del proyecto:
+
+```bash
+podman build -t btg-pactual-funds-api -f deployment/Dockerfile .
+```
+
+### 2. Ejecutar el contenedor
+
+```bash
+podman run -d \
+  -p 8082:8082 \
+  --name btg-api-container \
+  -e "SPRING_PROFILES_ACTIVE=dev" \
+  -e "AWS_DYNAMODB_ENDPOINT=http://localhost:4567" \
+  btg-pactual-funds-api
+```
+
+> **Nota:** Si LocalStack se está ejecutando en el mismo host, asegúrate de que el contenedor pueda alcanzar el puerto `4567`.
+
 
 ---
 
