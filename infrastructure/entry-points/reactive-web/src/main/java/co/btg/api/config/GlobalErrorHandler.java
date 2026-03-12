@@ -28,10 +28,8 @@ public class GlobalErrorHandler {
         return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response));
     }
 
-    //Manejo de Errores de Validación (ej. @NotBlank, @NotNull en el Controller)
     @ExceptionHandler(WebExchangeBindException.class)
     public Mono<ResponseEntity<ApiResponse<Object>>> handleValidationException(WebExchangeBindException ex) {
-        // Extraemos todos los errores de los campos y los unimos en un solo String
         String errores = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.joining(", "));

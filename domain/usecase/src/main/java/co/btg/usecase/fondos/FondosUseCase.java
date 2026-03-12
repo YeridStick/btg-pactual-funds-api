@@ -39,7 +39,7 @@ public class FondosUseCase {
     }
 
     public Mono<Fondo> crearFondo(Fondo fondo) {
-        return validarFondo(fondo).then(fondoGateway.crearFondo(fondo));
+        return validarFondo(fondo).then(Mono.defer(() -> fondoGateway.crearFondo(fondo)));
     }
 
     public Mono<Fondo> editarFondo(String id, Fondo datos) {
